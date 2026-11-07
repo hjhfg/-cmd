@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/* ── 字体入口 ─────────────────────────────────────────────────
+   思源黑 / 思源宋 由 next/font/local 注入，字体名固定为 Maoxiang Sans / Maoxiang Serif。
+   这里用无层级的 :root 覆盖 Tailwind 内建的 --font-* 主题变量，
+   比 @layer theme 优先，任何构建顺序下都生效；
+   等宽链末尾补上中文，否则 Linux 上 font-mono 会把中文渲染成豆腐块。
+   ─────────────────────────────────────────────────────────── */
+/* 无层级声明：优先级高于 @layer theme 里的默认值，任何构建顺序下都生效 */
+:root,
+:host,
+html {
+  --font-sans: "Maoxiang Sans", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Maoxiang Serif", "Songti SC", "Noto Serif SC", "SimSun", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    "Maoxiang Sans", monospace;
+}
+
+:root {
+  --brand: #ffe500;
+}
+
+html,
+body {
+  height: 100%;
+  background: #0b0b0c;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.text-shadow {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.icon-shadow {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+.mask-top {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 40px);
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.anim-fade { animation: fade 0.2s ease-out both; }
+.anim-up { animation: up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.anim-pop { animation: pop 0.22s ease-out both; }
+
+/* 细分割线 */
+.hairline-b {
+  border-bottom: 1px solid #f0f0f3;
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+.wave-bar {
+  animation: wave 0.9s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+.typing-dot { animation: dot 1.2s infinite ease-in-out; }
+
+@keyframes heartfly {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
+  30% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -170%) scale(1.6); opacity: 0; }
+}
+.heart-fly { animation: heartfly 0.9s ease-out forwards; }
+
+@keyframes likepop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.32); }
+  100% { transform: scale(1); }
+}
+.like-pop { animation: likepop 0.35s ease-out; }
+
+@keyframes kenburns {
+  0% { transform: scale(1.04) translate(0, 0); }
+  100% { transform: scale(1.2) translate(-3%, -2%); }
+}
+.kenburns { animation: kenburns 14s ease-in-out infinite alternate; }
+
+@keyframes ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+.call-ring { animation: ring 1.8s ease-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.06) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.paper-lines {
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 29px, rgba(180, 140, 90, 0.18) 29px, rgba(180, 140, 90, 0.18) 30px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   「我的」· 登场舞台 (Stage) — 专属视觉语言
+   深色戛台 + 琥珀追光 + 胶片颗粒，与信息流/聊天同一套沉浸体系
+   ═══════════════════════════════════════════════════════════ */
+
+/* 舞台追光：缓慢漂移的暖色光锥 */
+@keyframes stageSpotDrift {
+  0%   { transform: translate3d(0,0,0) rotate(-8deg) scale(1); opacity: .85; }
+  50%  { transform: translate3d(-3%,2%,0) rotate(-4deg) scale(1.08); opacity: 1; }
+  100% { transform: translate3d(0,0,0) rotate(-8deg) scale(1); opacity: .85; }
+}
+.stage-spot {
+  background: conic-gradient(from 196deg at 78% -8%,
+    transparent 0deg, rgba(255,229,0,.16) 12deg, rgba(255,190,60,.10) 22deg, transparent 34deg);
+  animation: stageSpotDrift 17s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.stage-glow {
+  background: radial-gradient(58% 46% at 84% 4%, rgba(255,214,64,.30) 0%, rgba(255,150,50,.10) 42%, transparent 72%);
+  animation: stageSpotDrift 23s ease-in-out infinite reverse;
+}
+
+/* 胶片颗粒：静态 SVG 噪声，不参与动画，开销极低 */
+.stage-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* 入场：分层升起 */
+@keyframes stageRise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.stage-rise { animation: stageRise .58s cubic-bezier(.22,.9,.28,1) both; }
+
+/* 立绘换人：交叉淡入 + 轻微推近 */
+@keyframes stagePortrait {
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.stage-portrait { animation: stagePortrait .7s cubic-bezier(.22,.9,.28,1) both; }
+
+/* 登场指示灯 */
+@keyframes stageLive {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,229,0,.55); }
+  70%      { box-shadow: 0 0 0 7px rgba(255,229,0,0); }
+}
+.stage-live { animation: stageLive 2.1s ease-out infinite; }
+
+/* 上下文装配轨道：琥珀流光自上而下，暗示数据注入方向 */
+@keyframes stageRailFlow {
+  from { background-position: 0 -140%; }
+  to   { background-position: 0 240%; }
+}
+.stage-rail {
+  background-image: linear-gradient(to bottom,
+    rgba(255,229,0,0) 0%, rgba(255,229,0,.85) 42%, rgba(255,180,60,.5) 58%, rgba(255,229,0,0) 100%);
+  background-size: 100% 46%;
+  background-repeat: no-repeat;
+  animation: stageRailFlow 3.4s linear infinite;
+}
+
+/* 舞台滚动条：细窄琥珀滑块，融入页面而非浏览器默认样式 */
+.stage-scroll { scrollbar-width: thin; scrollbar-color: rgba(255,229,0,.30) transparent; }
+.stage-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+.stage-scroll::-webkit-scrollbar-track { background: transparent; }
+.stage-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,229,0,.26); border-radius: 99px;
+}
+.stage-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,229,0,.5); }
+
+/* 胶片横条：同样使用琥珀滑块 */
+.stage-strip { scrollbar-width: none; }
+.stage-strip::-webkit-scrollbar { height: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-spot, .stage-glow, .stage-rise, .stage-portrait, .stage-live, .stage-rail {
+    animation: none !important;
+  }
+}
