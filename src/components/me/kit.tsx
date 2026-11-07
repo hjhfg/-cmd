@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { CornerTicks } from "./Filigree";
 
@@ -184,9 +185,9 @@ export function Row({
   const cls = "flex w-full items-center gap-3 pl-3.5 text-left transition-colors duration-150 active:bg-white/[0.04]";
   if (href) {
     return (
-      <a href={href} className={cls}>
+      <Link href={href} className={cls}>
         {body}
-      </a>
+      </Link>
     );
   }
   return (
@@ -278,9 +279,9 @@ export function GhostButton({ children, onClick, href }: { children: ReactNode; 
     "flex h-[38px] items-center justify-center gap-1.5 rounded-[12px] px-3 text-[12px] font-medium transition active:scale-[0.985]";
   const style = { background: "rgba(255,255,255,.06)", color: T.paper, boxShadow: `inset 0 0 0 1px ${T.line2}` };
   return href ? (
-    <a href={href} className={cls} style={style}>
+    <Link href={href} className={cls} style={style}>
       {children}
-    </a>
+    </Link>
   ) : (
     <button type="button" onClick={onClick} className={cls} style={style}>
       {children}

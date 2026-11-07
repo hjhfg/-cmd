@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType, type SVGProps } from "react";
 import { useApp } from "@/components/AppProvider";
 import { toast } from "@/components/ui";
@@ -541,7 +542,7 @@ function MaskShelf({ personas, busyId, currentId, onPick }: { personas: Persona[
       <SectionHead
         zh="面具档案"
         en="PERSONAS"
-        index="01"
+        index="02"
         right={
           <Link href="/personas" className="flex items-center gap-0.5 text-[10.5px] transition active:opacity-60" style={{ color: T.dim }}>
             {active > 0 ? `${active} 张登场中` : "未选默认"}
@@ -623,6 +624,7 @@ function MaskShelf({ personas, busyId, currentId, onPick }: { personas: Persona[
 
 export default function MeScreen({ visible }: { visible: boolean }) {
   const { user, unread, refresh, autoVoice, setAutoVoice } = useApp();
+  const router = useRouter();
   const [personas, setPersonas] = useState<Persona[] | null>(null);
   const [studio, setStudio] = useState<StudioState>(INITIAL);
   const [rules, setRules] = useState<RegexRule[] | null>(null);
@@ -791,7 +793,7 @@ export default function MeScreen({ visible }: { visible: boolean }) {
           <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(to right, transparent, ${rgba(T.copper, 0.55)} 22%, ${rgba(T.yellow, 0.75)} 50%, ${rgba(T.copper, 0.55)} 78%, transparent)` }} />
           <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-16" style={{ background: `radial-gradient(60% 100% at 50% 0%, ${rgba(T.yellow, 0.07)}, transparent 70%)` }} />
 
-          <PageHead unread={unread} onBell={() => switchTab("/messages")} />
+          <PageHead unread={unread} onBell={() => router.push("/messages/interactions")} />
 
           <Portrait
             name={current?.name || user?.nickname || "猫箱用户"}
@@ -823,7 +825,7 @@ export default function MeScreen({ visible }: { visible: boolean }) {
 
         {/* ══ 工具箱：正则 / 下文 / 设置 ══ */}
         <section className="mt-6 px-4">
-          <SectionHead zh="工具箱" en="TOOLBOX" index="02" right={<TickRule count={9} height={7} />} />
+          <SectionHead zh="工具箱" en="TOOLBOX" index="01" right={<TickRule count={9} height={7} />} />
           <div className="grid grid-cols-3 gap-2.5">
             <ToolTile
               label="正则"
@@ -945,7 +947,7 @@ export default function MeScreen({ visible }: { visible: boolean }) {
           <SectionHead zh="常用" en="QUICK" index="04" />
           <Panel>
             <Row icon={<ChatSmallIcon className="h-[16px] w-[16px]" strokeWidth={1.9} />} tint={T.moon} title="我的聊天" detail="继续进行中的角色对话与剧情" onClick={() => switchTab("/messages")} />
-            <Row icon={<BellIcon className="h-[16px] w-[16px]" strokeWidth={1.9} />} tint={T.rose} title="互动消息" detail={unread > 0 ? `${unread} 条未读` : "点赞、评论与系统通知"} badge={unread} onClick={() => switchTab("/messages")} />
+            <Row icon={<BellIcon className="h-[16px] w-[16px]" strokeWidth={1.9} />} tint={T.rose} title="互动消息" detail={unread > 0 ? `${unread} 条未读` : "点赞、评论与系统通知"} badge={unread} href="/messages/interactions" />
             <Row icon={<HeartBadgeIcon className="h-[16px] w-[16px]" strokeWidth={1.9} />} tint={T.copper} title="让 Ta 出门" detail="主页 · 日记 · 手机 · 心声" onClick={openOuting} />
             <Row icon={<SparkleIcon className="h-[16px] w-[16px]" strokeWidth={1.9} />} tint={T.yellow} title="创作中心" detail="创建角色、编排多章节故事" onClick={() => switchTab("/create")} last />
           </Panel>
